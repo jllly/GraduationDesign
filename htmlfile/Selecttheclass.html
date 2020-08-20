@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<script type="text/javascript" src="../resources/jmeditor/jquery-1.8.3.min.js"></script>
+<link rel="stylesheet" href="../resources/layui/css/layui.css"  media="all">
+<script src="../resources/layer/layer.js"></script>
+<script src="../resources/layui/layui.js" charset="utf-8"></script>
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    html,body{
+        margin: 0;
+        font-family:"微软雅黑","Heiti SC"
+    }
+
+    .conter, .navbarconter{
+        width: 293px;
+        height: 557px;
+        overflow: auto;
+        margin: 0 auto;
+    }
+
+    .layui-card{
+        box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+    }
+
+    .searchbar{
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        display: flex;
+    }
+
+    .searbutton{
+        height: 26px;
+        width: 32px;
+        align-items: center;
+        display: flex;
+        background: #f1f1f1;
+        align-content: center;
+        cursor: pointer;
+        padding-left: 10px;
+    }
+
+
+    .searchbar  input {
+        height: 26px;
+        width: 230px;
+        outline: none;
+        border: none;
+        padding-left: 10px;
+        padding-right: 10px;
+
+    }
+
+    .classitem{
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+    .classitem p{
+        margin-bottom: 5px;
+        color: #585858;
+    }
+
+    .classlist{
+        height: 522px;
+        overflow: auto;
+    }
+
+</style>
+<body>
+
+
+<div class="conter">
+
+
+    <div class="searchbar" >
+
+
+        <input  class="searchinput" />
+        <div class="searbutton" >
+            <img src="../resources/img/search.png"  style=" align-self: center ;width:20px;height: 20px;" >
+        </div>
+    </div>
+
+
+    <div  class="classlist" >
+
+
+{{/*        <div class="classitem" >*/}}
+{{/*            <div style="flex: 1" >*/}}
+{{/*                <p style="    text-overflow: ellipsis;">班级名称</p>*/}}
+{{/*                <p>班号31 班学生人数1人</p>*/}}
+{{/*            </div>*/}}
+{{/*            <div>*/}}
+{{/*                <button type="button" class="layui-btn layui-btn-sm " onclick="addme(0)" style="margin-left: 5px">*/}}
+{{/*                    <i class="layui-icon">&#xe654;</i>*/}}
+{{/*                </button>*/}}
+{{/*            </div>*/}}
+{{/*        </div>*/}}
+
+
+
+    </div>
+
+
+
+
+</div>
+
+
+<script>
+
+    var classlist = [];
+    function  addme(index){
+        console.log(index);
+        //回调添加到布置列表里面
+        parent.window.addClass(classlist[index]);
+    }
+
+    var classlist = [];
+
+    function rendercalls() {
+        var allhtml = "";
+        for(var i =0;i<classlist.length;i++){
+            var htmlitem = ` <div class="classitem" >
+                        <div style="flex: 1" >
+                            <p style="    text-overflow: ellipsis;">`+classlist[i]["ClassName"]+`</p>
+                            <p>班号`+classlist[i]["ClassID"]+` 班学生人数`+classlist[i]["Number"]+`人</p>
+                        </div>
+                        <div>
+                            <button  onclick="addme(`+i+`)"  type="button" class="layui-btn layui-btn-sm" style="margin-left: 5px">
+                                <i class="layui-icon">&#xe654;</i>
+                            </button>
+                        </div>
+                    </div>`;
+            allhtml+=htmlitem;
+        }
+        $(".classlist").html(allhtml);
+    }
+
+    function getallclass (){
+        $.get("/Search_Class_list",function (data) {
+            classlist = data["data"];
+            rendercalls();
+        });
+    }
+
+    function searchclass (key){
+        classlist=[];
+        $.get("/Search_Class?keyword="+key,function (data) {
+            classlist = data["data"];
+            rendercalls();
+        });
+    }
+
+
+
+
+    $(function () {
+        getallclass();
+
+        $(".searbutton").on("click",function () {
+            var d =  $(".searchinput").val();
+            if(d == ""){
+                getallclass();
+                return;
+            }
+            searchclass(d);
+
+
+
+        });
+
+
+
+    });
+
+</script>
+
+
+</body>
+</html>

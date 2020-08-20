@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<script type="text/javascript" src="../resources/jmeditor/jquery-1.8.3.min.js"></script>
+<link rel="stylesheet" href="../resources/layui/css/layui.css"  media="all">
+<script src="../resources/layer/layer.js"></script>
+<script src="../resources/layui/layui.js" charset="utf-8"></script>
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    html,body{
+        margin: 0;
+        font-family:"微软雅黑","Heiti SC"
+    }
+
+    .conter, .navbarconter{
+        width: 950px;
+        margin: 0 auto;
+    }
+
+    .layui-card{
+        box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+    }
+
+</style>
+<body>
+
+
+
+{{template "teacher_header" .}}
+
+
+
+<div class="conter">
+
+
+    <a href="/decoratework">
+            <button type="button" class="layui-btn" style="margin-top: 10px">
+                <i class="layui-icon">&#xe608;</i> 布置作业
+            </button>
+    </a>
+    
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">正在进行</li>
+            <li>往期作业</li>
+
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show Homeworkinprogress ">
+
+
+
+
+
+
+
+
+            </div>
+
+            <div class="layui-tab-item">
+
+
+                <div class="layui-card"  style="    " >
+                    <div class="layui-card-header" style="display: flex;    " >
+                        <div style="flex: 1;color: #01adff;">第20周作业数学+标题巴拉巴拉自己填</div>
+                        <div>2010-20-20至2019-02-03</div>
+                    </div>
+                    <div class="layui-card-body">
+                        班级名称：张张的班级<br>
+                        班级人数：40人<br>
+                        提交作业：0人<br>
+                        未提交：40人<br>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <div id="paging"></div>
+
+
+
+
+
+</div>
+
+
+<script>
+    var  pagenow =1;
+
+    function getlistdata(page){
+        window.loadpagefist =true;
+
+
+
+        var index = layer.load();
+        $.get("/T_homework_is_in_progress?page_size=8&page_number="+page,function (data,status) {
+            layer.close(index);
+            var renderhtml ='';
+            for(var i=0;i<data["Data"].length;i++){
+                var itemhtmlstr = `
+                                <a href="/Correct_students_papers">
+                <div class="layui-card"  style=" margin-bottom: 20px   " >
+                    <div class="layui-card-header" style="display: flex;    " >
+                        <div style="flex: 1;color: #01adff;">第20周作业数学+标题巴拉巴拉自己填</div>
+                        <div>2010-20-20至2019-02-03</div>
+                    </div>
+                    <div class="layui-card-body">
+                        班级名称：张张的班级<br>
+                        班级人数：40人<br>
+                        提交作业：20人<br>
+                        未提交：20人<br>
+                    </div>
+                </div>
+                </a>
+                `;
+                renderhtml+=itemhtmlstr;
+                $(".Homeworkinprogress").html(renderhtml);
+                pagenow = page;
+            }
+            // data["Currentpage"]
+            window.loadpagefist =true;
+            //总页数大于页码总数
+            pagedata = data;
+
+            // console.log(data["Totalpage"]);
+            window.laypage.render({
+                elem: 'paging'
+                ,count: data["Count"],
+                limit:8,//数据总数
+                curr: page
+                ,jump: function(obj){
+                    if(window.loadpagefist == true){
+                        window.loadpagefist = false;
+                    }else{
+                        pagenow = obj.curr;
+                        // getlistdata(pagenow);
+                    }
+                }
+            });
+
+        });
+
+
+
+
+    }
+
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    $(function () {
+
+        layui.use('element', function(){
+            var element = layui.element;
+            //…
+        });
+
+        layui.use(['laypage', 'layer'], function(){
+            window.laypage = layui.laypage;
+            // getlistdata(pagenow);
+        });
+
+
+
+
+
+    })
+</script>
+
+
+</body>
+</html>

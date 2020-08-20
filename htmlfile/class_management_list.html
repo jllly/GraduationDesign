@@ -1,0 +1,272 @@
+<!--班级管理-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一起作业</title>
+    <script type="text/javascript" src="../resources/jmeditor/jquery-1.8.3.min.js"></script>
+    <link rel="stylesheet" href="../resources/layui/css/layui.css"  media="all">
+    <script src="../resources/layer/layer.js"></script>
+
+</head>
+<style>
+    html,body{
+        margin: 0;
+        font-family:"微软雅黑","Heiti SC"
+    }
+    #one img{
+        height: 25px;
+        margin: 0px 10px 0px 10px;
+        object-fit: contain;
+    }
+    #one .nav_item {
+        padding: 0px 10px;
+        border-bottom: 2px solid #01adff;
+        height: 68px;
+        cursor: pointer;
+    }
+    #one .nav_item:hover{
+        background: #0186c6;
+        border-bottom: 2px solid #045991;
+    }
+
+    .conter, .navbarconter{
+        width: 950px;
+        margin: 0 auto;
+    }
+    .navbarconter >ul , .navbarconter>li{
+        padding:0;margin:0;list-style:none
+    }
+    .navbarconter  li {
+        float: left;
+        display: flex;
+        height: 70px;
+        align-items: center;
+    }
+
+
+    .navrightctrpan img{
+        margin: 0px 5px 0px 5px;
+        width: 24px;
+        height: 24px;
+    }
+
+    .banitem{
+        box-shadow: 0px 2px 5px #8888881c;
+        margin-top: 20px;
+        display: flex;
+        border: 1px solid #ddd;
+        padding: 10px;
+        position: relative;
+    }
+    .banitem h3{
+        color: #01adff;
+        display: block;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .banitem p{
+        display: block;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .cbutton{
+        display: flex;
+        color: white;
+        background-image: linear-gradient(#05a6fa, #0298d9);
+        padding: 6px 10px 6px 10px;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 3px;
+        box-shadow: 0px 2px 5px #88888866;
+        cursor: pointer;
+        font-size: 15px;
+        align-self: center;
+        margin-left: 20px;
+        align-items: center;
+        text-decoration: none;
+    }
+    .comstb{
+
+        margin-top: 10px;
+    }
+
+    .listcontent{
+        min-height: 200px;
+    }
+
+</style>
+
+
+<body style="background-color: #f9f9f9;">
+
+{{template "teacher_header" .}}
+
+<script src="../resources/layui/layui.js" charset="utf-8"></script>
+
+<div class="conter">
+
+    <button type="button" class="layui-btn comstb">
+        <i class="layui-icon">&#xe608;</i> 添加
+    </button>
+    <div class="listcontent">
+
+    </div>
+
+    <div id="paging"></div>
+
+
+</div>
+<script>
+
+    var pagenow =1;
+    var pagedata = null;
+//删除班级
+    function del(info) {
+        layer.confirm('删除班级？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            //调用删除班级方法
+            $.post("/Delete_class",{
+                "invitation":info
+            },function (data,status) {
+                if(data.code==200){
+                    //删除成功
+                    layer.msg("删除成功");
+                    if(pagedata["Data"].length ==1){
+                        pagenow = pagenow-1;
+                        getlistdata(pagenow);
+                    }else{
+                        getlistdata(pagenow);
+                    }
+
+                }else if (data.code==500){
+                    //删除失败
+                    layer.msg(data.msg)
+                }
+            })
+        }, function(){
+            //取消回调
+        });
+    }
+//修改班级名称
+    function Modify(info){
+        layer.prompt({title: '请输入新的名称！', formType: 4}, function(pass, index){
+            layer.close(index);
+             $.post("/Class_nameModify",{
+                 "classname":pass,
+                 "invitation":info
+            },function (data,status) {
+                if(data.code==500){
+                    layer.msg(data.msg);
+                }else if(data.code == 200){
+
+                    layer.msg(data.msg);
+                    getlistdata(1);
+                }
+            })
+
+        });
+    }
+
+
+
+    function getlistdata(page){
+        var index = layer.load();
+        $.get("/Class_List?page_size=8&page_number="+page,function (data,status) {
+            layer.close(index);
+            var renderhtml ='';
+            for(var i=0;i<data["Data"].length;i++){
+                var itemhtmlstr = `<div class="banitem" >
+<div style="
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #fff;
+    z-index: -1;
+    top: 0;
+    left: 0;
+"></div>
+            <div style="flex: 1;">
+               <a href="/Student_management?Invitation=`+data["Data"][i]["Invitation"]+`&classname=`+data["Data"][i]["ClassName"]+`&calssid=`+data["Data"][i]["ClassID"]+`" > <h3 style="color: #01adff" >`+data["Data"][i]["ClassName"]+`</h3></a>
+                <p  style="color: #717171" >班号`+data["Data"][i]["ClassID"]+` 班学生人数`+data["Data"][i]["Number"]+`人  邀请码：`+data["Data"][i]["Invitation"]+`</p>
+            </div>
+            <div style="display: flex">
+                <a class="cbutton"  href="/Student_management?Invitation=`+data["Data"][i]["Invitation"]+`&classname=`+data["Data"][i]["ClassName"]+`&calssid=`+data["Data"][i]["ClassID"]+`"  >
+                    <img src="../resources/img/mpople.png" style="width: 22px;height: 22px;margin-right: 4px" > 学生管理
+                </a>
+
+                <a class="cbutton"  href="/decoratework?classid=`+data["Data"][i]["ClassID"]+`" >
+                    <img src="../resources/img/ryes.png" style="width: 20px;height: 15px;margin-right: 4px; margin-top: 3px;margin-bottom: 4px;" >布置作业
+                </a>
+
+
+     <a class="cbutton"  onclick="Modify(`+data["Data"][i]["Invitation"]+`)" >
+                    修改
+                </a>
+    <a class="cbutton"  onclick="del(`+data["Data"][i]["Invitation"]+`)" >
+                    删除
+                </a>
+            </div>
+        </div>`;
+                renderhtml+=itemhtmlstr;
+                $(".listcontent").html(renderhtml);
+                pagenow = page;
+            }
+            // data["Currentpage"]
+            window.loadpagefist =true;
+
+            //总页数大于页码总数
+            pagedata = data;
+            // console.log(data["Totalpage"]);
+            window.laypage.render({
+                elem: 'paging'
+                ,count: data["Count"],
+                limit:8,//数据总数
+                curr: page
+                ,jump: function(obj){
+                    if(window.loadpagefist == true){
+                        window.loadpagefist = false;
+                    }else{
+                        pagenow = obj.curr;
+                        getlistdata(pagenow);
+                    }
+                }
+            });
+
+        });
+    }
+    $(function () {
+        layui.use(['laypage', 'layer'], function(){
+            window.laypage = layui.laypage;
+            getlistdata(pagenow);
+        });
+        $(".comstb").click(function () {
+            layer.prompt({title: '创建班级,请输入班级名称！', formType: 4}, function(pass, index){
+                layer.close(index);
+                $.post("/Class_Add",{
+                    "classname":pass
+                },function (data,status) {
+                    if(data.code==500){
+                        layer.msg(data.msg);
+                    }else if(data.code == 200){
+
+                        layer.msg(data.msg);
+                        pagenow = 1;
+                        getlistdata(pagenow);
+                    }
+                })
+            });
+        });
+    })
+
+</script>
+
+
+</body>
+</html>
+
+

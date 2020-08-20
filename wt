@@ -1,0 +1,66 @@
+辅助文档
+
+http状态码
+200 OK
+请求已成功，请求所希望的响应头或数据体将随此响应返回。出现此状态码是表示正常状态。
+307
+
+[
+//一年级上
+  {title:'一年级上',children:[
+    {title:'第一单元',children:[
+        {title:'数一数',id:,}   ]},
+    {title:'第二单元',children:[
+        {title:'比一比',children:[
+            {title:'比多少',id:,},
+            {title:'比长短',id:,},
+            {title:'比高矮',id:,},  ]}   ]},
+    {title:'第三单元',children:[
+        {title:'1-5的认识和加减法',children:[
+            {title:'1-5的认识',id:,},
+            {title:'比大小',id:,},
+            {title:'第几',id:,},  ]}   ]},
+    {title:'第四单元',},
+    {title:'第五单元',},
+    {title:'第六单元',},
+    {title:'第七单元',},
+    {title:'第八单元',},
+    {title:'第九单元',},
+    {title:'第十单元',}, ]
+
+
+  }，
+  {title: '一年级上',id: 1,children: [
+    {title: '第一单元',id: 1000,children: [
+        {title: '比一比',id: 10001},
+        {title: '数一数',id: 10002}]},
+    {title: '第二单元',id: 1001},
+    {title: '第三单元',id: 1002}] },
+
+
+
+
+    {
+        title: '一年级下'
+        ,id: 2
+        ,children: [{
+          title: '南宁'
+          ,id: 2000
+        },{
+          title: '桂林'
+          ,id: 2001
+        }]
+      },{
+        title: '二年级上'
+        ,id: 3
+        ,children: [{
+          title: '西安'
+          ,id: 3000
+        },{
+          title: '延安'
+          ,id: 3001
+        }]
+      }
+
+
+]

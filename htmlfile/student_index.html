@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一起作业</title>
+    <script type="text/javascript" src="../resources/jmeditor/jquery-1.8.3.min.js"></script>
+    <link rel="stylesheet" href="../resources/layui/css/layui.css"  media="all">
+    <script src="../resources/layer/layer.js"></script>
+    <script src="../resources/layui/layui.js" charset="utf-8"></script>
+
+</head>
+<style>
+
+    html,body{
+        margin: 0;
+        font-family:"微软雅黑","Heiti SC"
+    }
+    .logo{
+        width: 120px;
+        height: 40px !important;
+    }
+    #one img{
+        height: 25px;
+        margin: 0px 10px 0px 10px;
+        object-fit: contain;
+    }
+
+    #one .nav_item {
+        padding: 0px 10px;
+        border-bottom: 2px solid #01adff;
+        height: 68px;
+        cursor: pointer;
+    }
+
+    #one .nav_item:hover{
+        background: #0186c6;
+        border-bottom: 2px solid #045991;
+    }
+    .navbar{
+        background-color: #01adff;width: 100%;height: 70px;
+    }
+
+    .conter, .navbarconter{
+        width: 950px;
+        margin: 0 auto;
+        background: #fff;
+    }
+    .navbarconter >ul , .navbarconter>li{
+        padding:0;margin:0;list-style:none
+    }
+
+    .navbarconter  li {
+        float: left;
+        display: flex;
+        height: 70px;
+        align-items: center;
+    }
+    .navrightctrpan{
+        height: 70px;
+        float: right;
+        display: flex;
+        align-items: center;
+    }
+    .navrightctrpan img{
+        margin: 0px 5px 0px 5px;
+        width: 24px;
+        height: 24px;
+    }
+
+    .noticebar{
+        width: 950px;
+
+        height: 40px;
+        /*border: 1px solid #D3D3D3;*/
+        margin:  0 auto;
+        display: flex;
+        align-items: center;
+        padding: 0px 5px 0px 5px;
+        margin-top: 5px;
+        box-shadow: 0px 2px 5px #dadada;
+
+    }
+    .noticebar img {
+        width: 20px ;
+        height: 20px;
+        margin-right: 10px;
+    }
+    .labletiel {
+        background-color: #06adfe;
+        border-radius: 3px 3px 0px 0px;
+        width: 106px;
+        display: block;
+        text-align: center;
+        color: #fff;
+        height: 25px;
+        line-height: 25px;
+    }
+    .workinfopan{
+        border: 1px solid #ddd;
+        display: flex;
+        padding: 20px  30px 20px 30px;
+    }
+    .workinfoctr{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .workinfoctr P{
+        margin:  4px 0px 4px 0px;
+        font-size: 14px;
+        color: #757575;
+
+    }
+    .workvideo{
+        width: 200px;
+        height: 120px;
+        position: relative;
+    }
+    .workvideo img {
+        width: 200px;
+        height: 120px;
+    }
+    .workvideo > .palyicon{
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -20px 0px 0px -20px;
+    }
+    .workbegin{
+        align-self: flex-end;
+        text-decoration: none;
+        font-size: 14px;
+        display: block;
+        color: white;
+        background: #06adfe;
+        border-radius: 5px;
+        padding: 5px 10px 5px 10px;
+        text-align: center;
+        margin-right: 10px;
+    }
+    .workbegin img {
+        width: 12px;
+        height: 12px;
+    }
+
+
+
+    .barborderbox{
+        display: flex;
+    }
+    .barboxconetn{
+        border-bottom: 2px solid #D3D3D3;
+        flex: 1;
+        height: 30px;
+        align-items: center;
+        display: flex;
+    }
+    .barboxtitle{
+        color: #A52A2A;
+        border-bottom: 2px solid #A52A2A;
+        font-size: 20px;
+        letter-spacing: 4px;
+        padding: 0px 5px;
+        display: flex;
+        height: 30px;
+        align-items: center;
+
+    }
+
+
+</style>
+
+
+<body style="background-color: #f9f9f9;">
+
+
+{{template "Students_header" .}}
+
+
+
+<!--通知-->
+<div class="conter" >
+    <div class="noticebar" >
+        <img src="../resources/img/notice.png" >
+        <div style="display: inline;">
+            <span>通知公告：</span>
+            <span>应该是后台或取</span>
+        </div>
+    </div>
+
+
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+
+            <li class="layui-this ongoingWrok">正在进行</li>
+            <li  class="pastWork" >往期作业</li>
+
+
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+
+                    <div  style="margin: 0px 5px; margin-top: 10px ">
+                        <h class="labletiel" >数学作业</h>
+                        <div class="workinfopan">
+
+                            <div  class="workinfoctr" >
+                                <p><span>时间:</span><span>今天到明天</span></p>
+                                <p><span>状态:</span><span>待批改</span></p>
+                                <p><span>班级:</span><span>这是一个测试班级</span></p>
+                                <div style="flex: 1;" ></div>
+
+
+                                <div style="display: flex" >
+                                    <div style="flex:1" ></div>
+                                    <a class="workbegin"  href="/dowork?id=2" >
+                                        <img src="../resources/img/tline.png">
+                                        开始做作业</a>
+
+                                    <a class="workbegin"  href="/" >
+                                        <img src="../resources/img/tline.png">
+                                        查看批改</a>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+            </div>
+
+            <div class="layui-tab-item">
+
+                <div  style="margin: 0px 5px; margin-top: 10px ">
+
+                    <h class="labletiel" >数学作业</h>
+                    <div class="workinfopan">
+
+                        <div  class="workinfoctr" >
+                            <p><span>时间:</span><span>今天到明天</span></p>
+                            <p><span>状态:</span><span>待批改</span></p>
+                            <p><span>班级:</span><span>这是一个测试班级</span></p>
+                            <div style="flex: 1;" ></div>
+
+
+                            <div style="display: flex" >
+                                <div style="flex:1" ></div>
+                                <a class="workbegin"  href="/" >
+                                    <img src="../resources/img/tline.png">
+                                    开始做作业</a>
+                                <a class="workbegin"  href="/" >
+                                    <img src="../resources/img/tline.png">
+                                    查看批改</a>
+                            </div>
+
+
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                <div id="paging"></div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+
+</body>
+</html>
+
+<script>
+
+    var  pagenow =1;
+
+    $(".ongoingWrok").on("click",function () {
+        //正在进行 切换
+        // layer.msg("、？？？")
+    });
+    $(".pastWork").on("click",function () {
+        //往期作业切换
+        //页面跳转
+        // before_Student
+        // $.get("/Before_Student_worklist",function (data) {
+        //     classlist = data["data"];
+        //     rendercalls();
+        // });
+        // layer.msg("、？？？2")
+    });
+
+    function getlistdata(pagenumber){
+        window.loadpagefist =true;
+        window.laypage.render({
+            elem: 'paging'
+            ,count: 8,
+            limit:8,//数据总数
+            curr: 1
+            ,jump: function(obj){
+                if(window.loadpagefist == true){
+                    window.loadpagefist = false;
+                }else{
+                    pagenow = obj.curr;
+                    getlistdata(pagenow);
+                }
+            }
+        });
+
+    }
+
+    var workingdata = [];
+    function loadworkingdata(){
+        $.get("/fornow_Student_worklist",function (data) {
+            workingdata = data["data"];
+            console.log(workingdata);
+
+
+
+        });
+
+
+    }
+
+
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    $(function () {
+
+        layui.use('element', function(){
+            var element = layui.element;
+        });
+        layui.use(['laypage', 'layer'], function(){
+            window.laypage = layui.laypage;
+            getlistdata(pagenow);
+        });
+        loadworkingdata();
+
+
+    })
+
+</script>

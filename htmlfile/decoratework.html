@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link href="../resources/style/default.css" rel="stylesheet" media="screen" type="text/css" />
+    <script type="text/javascript" src="../resources/jmeditor/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../resources/jmeditor/JMEditor.js"></script>
+    <link rel="stylesheet" href="../resources/layui/css/layui.css"  media="all">
+    <script src="../resources/layer/layer.js"></script>
+    <script src="../resources/layui/layui.js"></script>
+
+
+
+</head>
+<style>
+    html,body{
+        margin: 0;
+        font-family:"微软雅黑","Heiti SC"
+    }
+    .conter, .navbarconter{
+        width: 950px;
+        margin: 0 auto;
+    }
+    .workpan{
+        background: white;
+        border: 1px solid #ddd;
+        display: flex;
+        height: 800px;
+        overflow: auto;
+    }
+    .workvideo{
+        width: 250px;
+        height: 120px;
+        position: relative;
+    }
+    .workvideo img {
+        width: 220px;
+        height: 120px;
+    }
+    .workvideo > .palyicon{
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -20px 0px 0px -20px;
+    }
+    .video{
+        height: 100%;
+        width: 250px;
+    }
+    .workcpan{
+        flex: 1;
+        overflow: auto;
+        border-right: 1px solid #ddd;
+    }
+    .video .vtitle {
+        font-size: 15px;
+        font-weight: bold;
+        color: #2e8cb7;
+        margin:  10px 0px 10px 0px;
+    }
+    .worklabelbox{
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+    .worklabel{
+        color: white;
+        background: #2e8cb7;
+        font-size: 14px;
+        display: inline;
+        padding: 4px 5px 4px 5px;
+        position: relative;
+    }
+    .worklabel:after{
+        margin-top: 2px;
+        position: absolute;
+        content: '';
+        border-top: 10px transparent dashed;
+        border-left: 10px #2e8cb7 solid;
+        border-bottom: 10px transparent dashed;
+        border-right: 10px transparent dashed;
+        margin-left: 3px;
+        top:0px
+    }
+.SingleT{
+    background: #f2f2f2;
+    padding: 20px 20px 20px 20px;
+}
+    .wtitle {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .Singlew{
+        padding: 20px 20px 20px 20px;
+        background: white;
+    }
+
+    .Singlew  input{
+        border: none;
+        border-bottom: 1px solid #000;
+        outline: none;
+    }
+
+    .subwork{
+        color: white;
+        background-image: linear-gradient(#05a6fa, #0298d9);
+        padding: 10px;
+        width: 72px;
+        height: 15px;
+        line-height: 15px;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 3px;
+        box-shadow: 0px 2px 5px #88888866;
+        cursor: pointer;
+    }
+
+
+
+    .cbuttons{
+        display: flex;
+        color: white;
+        width: 100px;
+        background-image: linear-gradient(#05a6fa, #0298d9);
+        padding: 6px 10px 6px 10px;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 3px;
+        box-shadow: 0px 2px 5px #88888866;
+        cursor: pointer;
+        font-size: 15px;
+        align-self: center;
+        align-items: center;
+        text-decoration: none;
+    }
+
+
+
+
+    .barborderbox{
+        display: flex;
+        margin-bottom: 10px;
+    }
+    .barboxconetn{
+        border-bottom: 2px solid #D3D3D3;
+        flex: 1;
+        height:40px;
+        align-items: center;
+        display: flex;
+    }
+    .barboxconetnr{
+        border-bottom: 2px solid #D3D3D3;
+
+        height: 40px;
+        align-items: center;
+        display: flex;
+    }
+    .barboxtitle{
+        color: #A52A2A;
+        border-bottom: 2px solid #A52A2A;
+        font-size: 20px;
+        letter-spacing: 4px;
+        padding: 0px 5px;
+        display: flex;
+        height: 40px;
+        align-items: center;
+    }
+    .classitem{
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+    .classitem p{
+        margin-bottom: 5px;
+        color: #585858;
+    }
+
+
+    .bgover{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #0c0c0c57;
+        top: 0px;
+        z-index: -1;
+        opacity: 0;
+    }
+
+    .tanchukuangt{
+        border: 1px solid #ddd;
+        padding: 10px;
+        width: 400px;
+        position: absolute;
+        top: -400px;
+        background: #fff;
+        left: 50%;
+        margin-left: -200px;
+
+    }
+
+
+</style>
+
+
+<body style="background-color: #f9f9f9;">
+
+<!--通知-->
+
+<div class="conter" >
+
+
+    <!--正在进行-->
+    <div class="barborderbox">
+
+        <span class="barboxtitle">布置作业</span>
+        <span  class="barboxconetn"  >
+{{/*            测试班 9  时间 2014-02-04到2014-03-01*/}}
+        </span>
+
+
+        <div class="barboxconetnr" >
+{{/*            倒计时 : <span style="color: #A52A2A" >00:00:14</span>*/}}
+
+
+            <button type="button" class="layui-btn layui-btn-sm  overwordk ">
+                <i class="layui-icon">&#xe716;</i> 完成布置
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <div class="workpan">
+            <div class="workcpan" >
+
+{{/*                <div>*/}}
+{{/*                    <div class="worklabelbox" >*/}}
+{{/*                        <div class="worklabel" >*/}}
+{{/*                            单选题*/}}
+{{/*                        </div>*/}}
+{{/*                    </div>*/}}
+{{/*                    <div class="SingleT" >*/}}
+{{/*                        <p class="wtitle" >*/}}
+{{/*                            1.两数之和是什么意思*/}}
+{{/*                        </p>*/}}
+{{/*                        <p class="wtitle" >*/}}
+{{/*                           <label> <input name="Fruit" type="radio" value="1" />苹果</label>*/}}
+{{/*                        </p>*/}}
+{{/*                        <p class="wtitle" >*/}}
+{{/*                            <label> <input name="Fruit" type="radio" value="1" />栗子</label>*/}}
+{{/*                        </p>*/}}
+{{/*                        <p class="wtitle" >*/}}
+{{/*                            <label> <input name="Fruit" type="radio" value="1" />咸鱼</label>*/}}
+{{/*                        </p>*/}}
+{{/*                    </div>*/}}
+{{/*                </div>*/}}
+{{/*                <div>*/}}
+{{/*                    <div class="worklabelbox" >*/}}
+{{/*                        <div class="worklabel" >*/}}
+{{/*                            填空题*/}}
+{{/*                        </div>*/}}
+{{/*                    </div>*/}}
+{{/*                    <div class="Singlew" >*/}}
+{{/*                        <p class="wtitle" >*/}}
+{{/*                            1.两数之和是*/}}
+{{/*                            <input />*/}}
+{{/*                            什么意思*/}}
+{{/*                        </p>*/}}
+{{/*                    </div>*/}}
+{{/*                </div>*/}}
+{{/*                <div>*/}}
+{{/*                    <div class="worklabelbox" >*/}}
+{{/*                        <div class="worklabel" >*/}}
+{{/*                            解答题*/}}
+{{/*                        </div>*/}}
+{{/*                    </div>*/}}
+{{/*                    <div class="Singlew" >*/}}
+{{/*                        <p class="wtitle" >*/}}
+{{/*                            1.两数之和是*/}}
+{{/*                        </p>*/}}
+{{/*                        <div id="content2" contentEditable="true" class="editDemo">*/}}
+{{/*                        </div>*/}}
+{{/*                    </div>*/}}
+{{/*                </div>*/}}
+
+
+                <div style="margin-top: 15px" >
+                    <div class="Questionlistview">
+                    </div>
+                    <div class="cbuttons"  style="margin-top: 10px;"  >
+                        <img src="../resources/img/addf.png" style="width: 22px;height: 22px;margin-right: 4px" > 添加题目
+                    </div>
+                </div>
+                <div>
+                    <div style="height: 50px" ></div>
+                </div>
+            </div>
+
+
+
+            <div  class="video">
+                <p class="vtitle" style="padding-top: 10px;padding-left: 10px" >作业布置对象</p>
+
+                <div  class="classlist" >
+
+
+
+
+
+
+                </div>
+
+
+                <div style="text-align: center;margin-top: 20px">
+                    <button type="button" class="layui-btn layui-btn-sm addclass ">
+                        <i class="layui-icon">&#xe608;</i> 添加
+                    </button>
+                </div>
+
+
+
+{{/*                <div class="workvideo" >*/}}
+{{/*                    <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1830914723,3154965800&fm=26&gp=0.jpg">*/}}
+{{/*                    <img  class="palyicon" src="../resources/img/play.png" >*/}}
+{{/*                </div>*/}}
+            </div>
+    </div>
+
+
+
+</div>
+
+
+<div class="bgover" ></div>
+<div class="tanchukuangt" >
+    作业名称
+    <div style="height: 10px" ></div>
+
+    <div >
+
+        <div class="layui-form-item">
+            <input type="text" name="title" required  lay-verify="required" placeholder="请输入作业名称" autocomplete="off" class="layui-input wrokname">
+        </div>
+
+        <div>
+            有效期
+        </div>
+        <div style="height: 10px" ></div>
+
+        <input type="text" class="layui-input" id="test6" placeholder=" 请选择作业时间段 ">
+
+        <div class="layui-inline">
+
+        </div>
+
+
+
+
+    </div>
+
+    <button type="button" class="layui-btn  fabuworkd " style="margin-top: 20px;" >
+        发布
+    </button>
+</div>
+
+
+
+
+</body>
+
+
+<script>
+
+    $(".fabuworkd").on("click",function () {
+       var d =  $(".wrokname").val();
+       if(d == null ||  d == ""){
+           layer.msg("请填写班级名称");
+           return
+       }
+        var time =  $("#test6").val();
+        if(time == null ||  time == ""){
+            layer.msg("请选择作业时间");
+            return
+        }
+        var timelist =  time.split(" - ");
+        var startime =  Date.parse(new Date(timelist[0]));
+        var endtime =   Date.parse(new Date(timelist[1]));  //new Date(timelist[1]).getTime();
+        var tidlist = "";
+        var classliststr= "";
+
+        window.Questionlist.forEach(function (item) {
+            tidlist+=(item["id"]+",");
+        })
+
+        classlist.forEach(function (item) {
+            classliststr+=(item["ClassID"]+",");
+        })
+
+        tidlist = tidlist.substring(0, tidlist.length - 1);
+        classliststr = classliststr.substring(0, classliststr.length - 1);
+
+        //layer.msg("发送接口跳转页面")
+        $.post("/Complete_assignment",{
+            "StartTime":startime,
+            "EndTime":endtime,
+            "HomeworkName":d,
+            "classID":classliststr,
+            "topicID":tidlist,
+        },function (data,status) {
+
+            if(data.code==200){
+                layer.msg("布置作业成功");
+                setTimeout(function () {
+                    window.history.go(-1);
+                },500)
+
+            }
+
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+    function showctview(){
+        $(".bgover").css({"z-index":1})
+            .animate({opacity:1},function () {
+            });
+        $(".tanchukuangt").css({"z-index":2})
+            .animate({top:0},function () {
+            });
+    }
+
+    function hidetview(){
+        $(".bgover")
+            .animate({opacity:0},function () {
+                $(".bgover").css({"z-index":"-1"});
+            });
+        $(".tanchukuangt")
+            .animate({top:"-400px"},function () {
+            });
+    }
+
+    $(".bgover").on("click",function () {
+        hidetview();
+    });
+
+    var classlist = [];
+     window.Questionlist=[];
+
+     function handeladd(index) {
+         layer.confirm('删除题目？', {
+             btn: ['确定','取消'] //按钮
+         }, function(){
+             layer.msg("删除成功");
+             window.Questionlist.splice(index,1);
+             renderQuestion();
+         }, function(){
+             //取消回调
+         });
+
+
+
+     }
+
+    function addp(data) {
+        var hans = false;
+        window.Questionlist.forEach(function (index) {
+            if(index["id"] == data["id"]){
+                hans = true;
+            }
+        });
+        if(hans == true){
+            layer.msg("该题目已添加无法重复添加");
+            return;
+        }
+        layer.msg("添加题目成功");
+        window.Questionlist.push(data);
+        renderQuestion();
+
+    }
+
+
+    function renderQuestion() {
+
+
+        var htmlt ="";
+        for(var i=0;i<window.Questionlist.length;i++){
+            if(window.Questionlist[i]["type"] =="0"){
+                var options = "";
+                for( var d= 0;d<window.Questionlist[i]["options"].length;d++){
+                    options+=`  <div class="wtitle" >
+                                            <label> <input name="`+(i.toString())+`" type="`+(window.Questionlist[i]["multiSelect"]?"checkbox":"radio")+`" value="`+i+`" />   <div  style="display: inline-block;" > `+window.Questionlist[i]["options"][d]+`</div> </label>
+                                        </div>`;
+                }
+                //选择题
+                htmlt+=`<div onclick="handeladd(`+i+`)" >
+                                    <div class="worklabelbox" >
+                                        <div class="worklabel" >
+                                            `+(window.Questionlist[i]["multiSelect"]?"多选题":"单选题")  +`
+                                        </div>
+                                    </div>
+
+                                    <div class="SingleT" >
+                                          <div class="wtitle" >
+                                            `+((i+1)+".")+`
+                                                <div style="display: inline-block;" >`+(window.Questionlist[i]["problem"])+`</div>
+                                            </div>
+                                        `+options+`
+                                    </div>
+                                </div>`;
+
+
+            } else if (window.Questionlist[i]["type"] =="2"){
+                //选择题
+                htmlt+=` <div onclick="handeladd(`+i+`)" >
+                                    <div class="worklabelbox" >
+                                        <div class="worklabel" >
+                                            解答题
+                                        </div>
+                                    </div>
+                                    <div class="Singlew" >
+                                        <div class="wtitle" style="margin-bottom: 10px" >
+                                            `+(window.Questionlist[i]["problem"])+`
+                                        </div>
+                                        <div   class="editDemo editare" onclick="handleProblemarea(this)">
+                                        </div>
+                                    </div>
+                                </div>`;
+            } else  if (window.Questionlist[i]["type"] =="1"){
+                window.Questionlist[i]["problem"]  =   "<div>"+window.Questionlist[i]["problem"].substr(3,window.Questionlist[i]["problem"].length-4)+"</div>";
+                var list = window.Questionlist[i]["problem"].split("(Needtofill)");
+                var  renderview = '';
+                for(var ii = 0;ii<list.length;ii++){
+                    renderview+=list[ii];
+                    if(ii !=list.length-1 ){
+                        renderview+="<span class='Fillintheblanks'  onclick='handleProblemarea(this)'  >(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</span>"
+                    }
+                }
+                //选择题
+                htmlt+=` <div  onclick="handeladd(`+i+`)"   >
+
+                                    <div class="worklabelbox"  onmouseenter="console.log('xxx')" >
+                                        <div class="worklabel" >
+                                            填空题
+                                        </div>
+                                    </div>
+
+                                    <div class="Singlew" >
+                                        <div class="wtitle" style="margin-bottom: 10px" >
+                                           `+((i+1)+".")+` `+renderview+`
+                                        </div>
+                                    </div>
+                                </div>`;
+
+            }
+
+
+        }
+
+
+        $(".Questionlistview").html(htmlt)
+
+    }
+
+
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+
+
+    function removeclass(index) {
+        classlist.splice(index,1);
+        renderclass();
+    }
+    function addClass( data){
+        //判断是否存在就不添加
+        var hasclass = false;
+        classlist.forEach(function (item) {
+            if(item["ClassID"] == data["ClassID"]){
+                hasclass = true;
+            }
+        });
+
+        if(hasclass){
+            layer.msg("已添加班级");
+            return
+        }
+        classlist.push(data);
+        renderclass();
+    }
+    function renderclass(){
+        var allhtml = "";
+        for(var i =0;i<classlist.length;i++){
+            var htmlitem = ` <div class="classitem" >
+                        <div style="flex: 1" >
+                            <p style="    text-overflow: ellipsis;">`+classlist[i]["ClassName"]+`</p>
+                            <p>班号`+classlist[i]["ClassID"]+` 班学生人数`+classlist[i]["Number"]+`人</p>
+                        </div>
+                        <div>
+                            <button  onclick="removeclass(`+i+`)"  type="button" class="layui-btn layui-btn-sm" style="margin-left: 5px">
+                                <i class="layui-icon">&#xe640;</i>
+                            </button>
+                        </div>
+                    </div>`;
+            allhtml+=htmlitem;
+        }
+        $(".classlist").html(allhtml);
+    }
+
+
+    $(".addclass").on("click",function () {
+
+
+        if(window.addpwindow !=null){
+            layer.close(window.addpwindow);
+            window.addpwindow= null;
+        }
+
+        window.addpwindow =  layer.open({
+            type: 2,
+            title: '选择班级',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['293px', '600px'],
+            content: "/Selecttheclass"
+        });
+    });
+    $(".cbuttons").on("click",function () {
+
+        //添加选题
+        if(window.addpwindow !=null){
+            layer.close(window.addpwindow);
+            window.addpwindow= null;
+        }
+
+
+
+        window.addpwindow =  layer.open({
+            type: 2,
+            title: '选择题目',
+            shadeClose: true,
+            shade: true,
+            maxmin: true, //开启最大化最小化按钮
+            area: ["1000px", "500px"],
+            content: "/questionbank_management?select=true"
+        });
+
+
+
+
+
+    });
+    $(".overwordk").on("click",function () {
+
+        if(window.Questionlist.length ==0){
+            layer.msg("题目不能为空");
+            return;
+        }
+        if(classlist.length ==0){
+            layer.msg("班级不能为空");
+            return;
+        }
+
+
+        showctview();
+
+
+
+    });
+
+    var classlist  =[];
+
+    function getidclassinfo (id){
+        $.get("/Choose_class?id="+id,function (data) {
+            classlist.push(data["data"][0]);
+            renderclass();
+        });
+    }
+
+    $(function () {
+        //初始化 是否有默认班级
+        var classid = getUrlParam("classid");
+        if(classid != null && classid != "" ){
+            getidclassinfo(classid);
+        }
+
+
+        layui.use('laydate', function(){
+            window.laydate = layui.laydate;
+            //日期范围
+            window.laydate.render({
+                elem: '#test6'
+                ,range: true,
+                min:getFormatDate(new Date()),
+
+            });
+
+
+        });
+
+
+    })
+
+
+
+    function getFormatDate(date) {
+        // var date = new Date();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentDate = date.getFullYear() + "-" + month + "-" + strDate
+            + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        return currentDate;
+    }
+
+
+
+</script>
+
+</html>

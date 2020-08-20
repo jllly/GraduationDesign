@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一起作业</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="../resources/jmeditor/jquery-1.8.3.min.js"></script>
+    <script src="../resources/layer/layer.js"></script>
+    <script src="../resources/layui/layui.js"></script>
+    <link rel="stylesheet" href="../resources/layui/css/layui.css"  media="all">
+
+
+</head>
+<style>
+
+    html,body{
+        margin: 0;
+        font-family:"微软雅黑","Heiti SC"
+    }
+    .conter, .navbarconter{
+        width: 950px;
+        margin: 0 auto;
+    }
+
+    .barborderbox{
+        display: flex;
+    }
+    .barboxconetn{
+        border-bottom: 2px solid #D3D3D3;
+        flex: 1;
+        height: 30px;
+        align-items: center;
+        display: flex;
+    }
+    .barboxtitle{
+        color: #A52A2A;
+        border-bottom: 2px solid #A52A2A;
+        font-size: 20px;
+        letter-spacing: 4px;
+        padding: 0px 5px;
+        display: flex;
+        height: 30px;
+        align-items: center;
+
+    }
+    .magebar{
+        display: flex;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .searchbar{
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        display: flex;
+    }
+
+    .searchbar  input {
+        height: 26px;
+        width: 200px;
+        outline: none;
+        border: none;
+        padding-left: 10px;
+        padding-right: 10px;
+
+    }
+    .searbutton{
+        height: 26px;
+        width: 32px;
+        align-items: center;
+        display: flex;
+        background: #f1f1f1;
+        align-content: center;
+        cursor: pointer;
+        padding-left: 10px;
+    }
+    .marginctrcontent{
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        align-items: center;
+    }
+    .ctrbutto{
+        margin-right: 10px;
+        color: #0088ca;
+        display: flex;
+        align-content: center;
+        align-items: center;
+    }
+
+
+
+    .searchtupe{
+        background: #fff;
+        padding-left: 10px;
+        width: 40px;
+        height: 26px;
+        border: none;
+        /*内容居中显示*/
+        text-align: center;
+        text-align-last: center;
+        /* 去掉select自带的样式 */
+        appearance: none;
+        /* IE */
+        -webkit-appearance: none;
+        /* google */
+        -moz-appearance: none;
+        /* firefox */
+        /*background: url("img/arrow_down.png") no-repeat scroll right center transparent;*/
+        /*background-size: 10% 30%;*/
+        /* 手势样式 */
+        cursor: pointer;
+    }
+
+    select::-ms-expand {
+        display: none;
+    }
+
+
+</style>
+
+
+<body style="background-color: #f9f9f9;">
+
+
+
+
+<div class="conter">
+
+
+
+    <!--正在进行-->
+    <div class="barborderbox">
+
+        <span class="barboxtitle">作业管理</span>
+        <span  class="barboxconetn"  >
+             <h4 style="color:#01adff;margin-right: 10px " class="classnametitle"></h4>   班级号<span class="classid"></span>
+        </span>
+    </div>
+
+
+    <div  class="magebar"  >
+
+
+        <div class="searchbar" >
+            <select  class="searchtupe" lay-verify="required">
+                <option value="0">名称</option>
+                <option value="1">手机</option>
+            </select>
+
+            <input  class="searchinput" />
+            <div class="searbutton" >
+                <img src="../resources/img/search.png"  style=" align-self: center ;width:20px;height: 20px;" >
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+
+    <table class="layui-hide" id="test" lay-filter="testss"></table>
+
+
+    <script type="text/html" id="barDemo"   >
+        <button class="layui-btn layui-btn-xs" lay-event="detail"  >查看作业</button>
+        <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">修改状态</button>
+    </script>
+
+{{/*    <script type="text/html" id="barDemo">*/}}
+{{/*        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>*/}}
+{{/*        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>*/}}
+{{/*        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>*/}}
+{{/*    </script>*/}}
+
+</div>
+</div>
+</body>
+</html>
+<script src="../resources/layui/layui.js" charset="utf-8"></script>
+<script>
+
+    $(".dowloadexcel").on("click",function () {
+        //get_student_list
+        window.open("/get_student_list?invitation="+Invitation)
+    });
+
+    function deleteuserinclass(data,obj){
+        if(data.length ==0){
+            layer.msg("请选择删除数据");
+            return
+        }
+        var sendstr  = "";
+        for(var i=0;i<data.length;i++) {
+            sendstr+=data[i]["id"]+",";
+        }
+
+        sendstr = sendstr.substring(0,sendstr.length-1);
+
+        var index = layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
+        $.post("/Batch_delete?invitation="+Invitation,{
+            "setID":sendstr
+        },function (data,status) {
+            layer.close(index);
+            if(data.code==500){
+                layer.msg(data.msg);
+            }else if(data.code == 200){
+                layer.msg(data.msg);
+                rendersearchcontent();
+
+                //pagenow = 1;
+                //getlistdata(pagenow);
+            }
+        })
+
+
+
+
+    }
+
+    $(".searbutton").on("click",function () {
+
+
+        var value  =  $(".searchinput").val();
+        if(value == ""){
+            //layer.msg("请输入搜索内容");
+            //重置搜索内容
+            rendersearchcontent()
+            return
+        }
+        rendersearchcontent(value,$(".searchtupe").val())
+        $.post("/Teacher_student_join?invitation="+Invitation,{
+            "data":pass
+        },function (data,status) {
+            if(data.code==500){
+                layer.msg(data.msg);
+            }else if(data.code == 200){
+
+                layer.msg(data.msg);
+                //pagenow = 1;
+                //getlistdata(pagenow);
+            }
+        })
+
+
+
+
+    });
+    //
+    $('.classnametitle').html(getUrlParam("classname"));
+    $('.classid').html(getUrlParam("calssid"));
+
+
+    $(".addstudents").on("click",function () {
+        layer.prompt({title: '输入学生手机号或者id！', formType: 3}, function(pass, index){
+            layer.close(index);
+            var Invitation = getUrlParam("Invitation");
+            $.post("/Teacher_student_join?invitation="+Invitation,{
+                "data":pass
+            },function (data,status) {
+                if(data.code==500){
+                    layer.msg(data.msg);
+                }else if(data.code == 200){
+
+                    layer.msg(data.msg);
+                    //pagenow = 1;
+                    //getlistdata(pagenow);
+                }
+            })
+        });
+
+
+    });
+
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+    //获取地址栏班级的邀请码
+    var Invitation = getUrlParam("Invitation");
+
+    function rendersearchcontent( searchkey,type){
+
+        // var url = '/Student_list?page_size=8&page_number=1&invitation='+Invitation;
+        // if(searchkey != null){
+        //     url = '/Search_student?page_size=8&page_number=1&invitation='+Invitation+"&way="+type+
+        //         "&content="+searchkey;
+        // }
+
+        var url = "/resources/t.json"
+
+        window.table.render({
+            elem: '#test',
+            //Student_list
+            // url:'/resources/t.json'
+            url:url  //url: '/demo/table/user/' //数据接口
+            // ,toolbar: '#barDemo'   //指向自定义工具栏模板选择器
+            ,title: '用户数据表'        //定义 table 的大标题（在文件导出等地方会用到）
+            // ,totalRow: false             //是否开启该列的自动合计功能
+            ,cols: [[
+
+                {type: 'checkbox', fixed: 'left'}
+                ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
+                ,{field:'username', title:'用户名', width:120, edit: 'text'}
+                ,{field:'experience', title:'手机号', width:80+150+170, sort: true, totalRow: true}
+
+                // ,{field:'sex', title:'性别', width:80, edit: 'text', sort: true}
+                // ,{field:'logins', title:'登入次数', width:100, sort: true, totalRow: true}
+                // ,{field:'sign', title:'签名'}
+                // ,{field:'city', title:'城市', width:100}
+                // ,{field:'ip', title:'IP', width:120}
+
+
+                ,{field:'logins', title:'作业状态', width:100}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
+
+            ]],
+            // page: true  , //开启分页
+        });
+
+
+        //工具栏事件
+        window.table.on('tool(testss)', function(obj){
+
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                //查看作业
+                layer.msg('ID：'+ data.id + ' 的查看操作');
+
+
+            } else if(obj.event === 'del'){
+
+                //修改作业状态
+                // layer.confirm('真的删除行么', function(index){
+                //     obj.del();
+                //     layer.close(index);
+                // });
+
+            }
+
+
+
+            // switch(obj.event){
+            //     // if(obj.event === 'detail'){
+            //     //     layer.msg('ID：'+ data.id + ' 的查看操作');
+            //     // }
+            //     case 'detail':
+            //         layer.msg('ID：'+ data.id + ' 的查看操作');
+            //     case 'getCheckData':
+            //         var data = checkStatus.data;
+            //         // layer.alert(JSON.stringify(data));
+            //         deleteuserinclass(data,obj);
+            //         break;
+            //     case 'getCheckLength':
+            //         var data = checkStatus.data;
+            //         layer.msg('选中了：'+ data.length + ' 个');
+            //         break;
+            //     case 'isAll':
+            //         layer.msg(checkStatus.isAll ? '全选': '未全选')
+            //         break;
+            // };
+        });
+
+
+    }
+
+
+    layui.use('table', function(){
+        window.table = layui.table;
+        //温馨提示：默认由前端自动合计当前行数据。从 layui 2.5.6 开始： 若接口直接返回了合计行数据，则优先读取接口合计行数据。
+        //详见：https://www.layui.com/doc/modules/table.html#totalRow
+        rendersearchcontent();
+
+
+
+
+
+
+    });
+
+
+</script>
+

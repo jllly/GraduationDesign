@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link href="../resources/style/default.css" rel="stylesheet" media="screen" type="text/css" />
+    <script type="text/javascript" src="../resources/jmeditor/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../resources/jmeditor/JMEditor.js"></script>
+
+    <link rel="stylesheet" href="../resources/layui/css/layui.css"  media="all">
+    <script src="../resources/layer/layer.js"></script>
+    <script src="../resources/layui/layui.js"></script>
+
+</head>
+<style>
+    html,body{
+        margin: 0;
+        font-family:"微软雅黑","Heiti SC"
+    }
+    .editDemo{
+        min-height:100px !important;
+    }
+    .conter, .navbarconter{
+        width: 893px;
+        margin: 0 auto;
+        position: relative;
+    }
+    .workpan{
+        background: white;
+        border: 1px solid #ddd;
+        display: flex;
+    }
+    .workvideo{
+        width: 220px;
+        height: 120px;
+        position: relative;
+    }
+    .workvideo img {
+        width: 220px;
+        height: 120px;
+    }
+    .workvideo > .palyicon{
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -20px 0px 0px -20px;
+    }
+    .video{
+        height: 100%;
+        padding: 10px;
+    }
+    .workcpan{
+        flex: 1;
+        overflow: auto;
+        border-right: 1px solid #ddd;
+    }
+    .video .vtitle {
+        font-size: 15px;
+        font-weight: bold;
+        color: #2e8cb7;
+        margin:  10px 0px 10px 0px;
+    }
+    .worklabelbox{
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+    .worklabel{
+        color: white;
+        background: #2e8cb7;
+        font-size: 14px;
+        display: inline;
+        padding: 4px 5px 4px 5px;
+        position: relative;
+    }
+    .worklabel:after{
+        margin-top: 2px;
+        position: absolute;
+        content: '';
+        border-top: 10px transparent dashed;
+        border-left: 10px #2e8cb7 solid;
+        border-bottom: 10px transparent dashed;
+        border-right: 10px transparent dashed;
+        margin-left: 3px;
+        top:0px
+    }
+.SingleT{
+    background: #f2f2f2;
+    padding: 20px 20px 20px 20px;
+}
+    .wtitle {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .Singlew{
+        padding: 20px 20px 20px 20px;
+        background: white;
+    }
+
+    .Singlew  input{
+        border: none;
+        border-bottom: 1px solid #000;
+        outline: none;
+    }
+
+    .subwork{
+        color: white;
+        background-image: linear-gradient(#05a6fa, #0298d9);
+        padding: 10px;
+        width: 72px;
+        height: 15px;
+        line-height: 15px;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 3px;
+        box-shadow: 0px 2px 5px #88888866;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+
+    .barborderbox{
+        display: flex;
+        margin-bottom: 10px;
+    }
+    .barboxconetn{
+        border-bottom: 2px solid #D3D3D3;
+        flex: 1;
+        height: 30px;
+        align-items: center;
+        display: flex;
+    }
+    .barboxconetnr{
+        border-bottom: 2px solid #D3D3D3;
+
+        height: 30px;
+        align-items: center;
+        display: flex;
+    }
+    .barboxtitle{
+        color: #A52A2A;
+        border-bottom: 2px solid #A52A2A;
+        font-size: 20px;
+        letter-spacing: 4px;
+        padding: 0px 5px;
+        display: flex;
+        height: 30px;
+        align-items: center;
+    }
+
+    .bgover{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #0c0c0c57;
+        top: 0px;
+        z-index: -1;
+        opacity: 0;
+    }
+    .tanchukuangt{
+        border: 1px solid #ddd;
+        padding: 10px;
+        width: 400px;
+        position: absolute;
+        top: -400px;
+        background: #fff;
+        left: 50%;
+        margin-left: -200px;
+
+    }
+
+</style>
+
+
+<body style="background-color: #f9f9f9;">
+
+<!--通知-->
+
+<div class="conter" >
+
+
+
+
+
+    <div class="workpan">
+
+        <form class="layui-form" action="" style="width:100%">
+            <div class="workcpan" >
+                <div>
+                    <div class="worklabelbox" >
+                        <div class="worklabel" >
+                            选择题
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text" style="margin-right: 20px;margin-top: 20px">
+                    <label class="layui-form-label">问题描述</label>
+                    <div class="layui-input-block">
+                        <div id="content2" contentEditable="true" class="editDemo">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text" style="margin-right: 20px;margin-top: 20px">
+                    <label class="layui-form-label">选项</label>
+                    <div class="layui-input-block">
+                        <div class="renderxxlist" ></div>
+                        <button type="button" class="layui-btn  creatoptions">
+                            <i class="layui-icon">&#xe608;</i> 创建选项
+                        </button>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">多选</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" class="switchcall"  name="switch" lay-skin="switch">
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text" style="margin-right: 20px;margin-top: 20px">
+                    <label class="layui-form-label">答案</label>
+                    <div class="layui-input-block">
+                        <div id="content4"  contentEditable="true" class="editDemo">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text" style="margin-right: 20px;margin-top: 20px">
+                    <label class="layui-form-label">解释</label>
+                    <div class="layui-input-block">
+                        <div id="content3" contentEditable="true" class="editDemo">
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+{{/*                <div>*/}}
+{{/*                    <div class="worklabelbox" >*/}}
+{{/*                        <div class="worklabel" >*/}}
+{{/*                            填空题*/}}
+{{/*                        </div>*/}}
+{{/*                    </div>*/}}
+{{/*                </div>*/}}
+
+
+
+
+{{/*                <div>*/}}
+{{/*                    <div class="worklabelbox" >*/}}
+{{/*                        <div class="worklabel" >*/}}
+{{/*                            解答题*/}}
+{{/*                        </div>*/}}
+{{/*                    </div>*/}}
+{{/*                </div>*/}}
+                <div>
+
+
+
+                    <div class="subwork" >
+                        保存题目
+                    </div>
+
+                    <div style="height: 50px" ></div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+
+
+</body>
+
+
+
+<div class="bgover" ></div>
+<div class="tanchukuangt" >
+    填写选项
+    <div style="height: 10px" ></div>
+    <div id="content1" contentEditable="true" class="editDemo">
+    </div>
+    <button type="button" class="layui-btn  Creationoptions " style="margin-top: 20px;" >
+         确定
+    </button>
+</div>
+
+
+
+<script>
+
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+
+    var xuanxianglist  = [];
+    function showctview(){
+        $(".bgover").css({"z-index":1})
+            .animate({opacity:1},function () {
+            });
+        $(".tanchukuangt").css({"z-index":2})
+            .animate({top:100},function () {
+            });
+    }
+
+    function hidetview(){
+        $(".bgover")
+            .animate({opacity:0},function () {
+                $(".bgover").css({"z-index":"-1"});
+            });
+        $(".tanchukuangt")
+            .animate({top:"-400px"},function () {
+            });
+    }
+    var viewshouwstat = false;
+    $(function () {
+
+        layui.use('form', function(){
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function(data){
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+        });
+
+
+
+        $(".bgover").on("click",function () {
+            hidetview();
+        });
+        $(".creatoptions").on("click",function () {
+            $("#content1").html("");
+            showctview();
+        });
+        $(".Creationoptions").on("click",function () {
+            //取值
+            hidetview();
+            xuanxianglist.push(JMEditor.html('content1'));
+            var htmlx = ``;
+            for(var i=0;i<xuanxianglist.length;i++){
+                htmlx+=`<div style="margin-bottom: 10px" ><div>`+((i+1)+".")+`</div><div class="xsitem" >`+xuanxianglist[i]+`</div></div>`
+            }
+            $(".renderxxlist").html(htmlx);
+        });
+
+        $(".subwork").on("click",function () {
+            // console.log($("#content2").html());
+            var wentimiaoshu =$("#content2").html();
+
+            console.log(wentimiaoshu);
+            if(wentimiaoshu == "" || wentimiaoshu =="<p><br></p>"){
+                layer.msg("请填写问题描述");
+                return
+            }
+            var annotation =$("#content3").html();
+
+            if(annotation == "" || annotation =="<p><br></p>"){
+                layer.msg("请填写问题解释");
+                return
+            }
+            var answer =$("#content4").html();
+            if(answer == "" || answer =="<p><br></p>"){
+                layer.msg("请填写题目答案");
+                return
+            }
+
+            if(xuanxianglist.length ==0){
+                layer.msg("请填写问题选择项");
+                return;
+            }
+
+
+            var knowledge = getUrlParam("id");
+
+
+
+
+            //执行回调
+                       var recalldatas = {
+                type:"0",
+                problem:wentimiaoshu,
+                explain:annotation,
+                options:xuanxianglist,
+                multiSelect:$(".layui-form-switch").hasClass("layui-form-onswitch"),
+            }
+
+
+            var recalldata = {
+                problem:wentimiaoshu,
+                options:xuanxianglist,
+                multiSelect:$(".layui-form-switch").hasClass("layui-form-onswitch"),
+            }
+
+
+
+            var index = layer.load();
+            $.post("/Add_Question",{
+                "category":"0",                               //题目类型 0选择，1填空，2解答
+                "answer":answer,                            //题目答案
+                "annotation":annotation,          //题目解析
+                "knowledge":knowledge,                 //知识点
+                "topic_describe":JSON.stringify(recalldata),              //题目描述
+            },function (data,status) {
+                //data.phone
+
+
+                layer.close(index);
+                if(data.code ==200){
+                    layer.msg(data.msg);
+                    parent.window.addproblem(recalldatas);
+                }else{
+                    layer.msg(data.msg);
+                }
+
+
+
+            })
+
+
+
+            //
+
+
+
+
+        })
+
+
+    })
+
+
+</script>
+
+</html>

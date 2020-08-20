@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<script type="text/javascript" src="../resources/jmeditor/jquery-1.8.3.min.js"></script>
+<link rel="stylesheet" href="../resources/layui/css/layui.css"  media="all">
+<script src="../resources/layer/layer.js"></script>
+<script src="../resources/layui/layui.js" charset="utf-8"></script>
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    html,body{
+        margin: 0;
+        font-family:"微软雅黑","Heiti SC"
+    }
+
+    .conter, .navbarconter{
+        width: 950px;
+        margin: 0 auto;
+    }
+
+    .layui-card{
+        box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+    }
+
+</style>
+<body>
+
+
+
+{{template "Students_header" .}}
+
+
+
+<div class="conter">
+    <button type="button" class="layui-btn comstb" style="margin-top: 10px;margin-bottom: 10px">
+        <i class="layui-icon">&#xe608;</i> 加入班级
+    </button>
+    <div class="listcontent">
+    </div>
+    <div id="paging"></div>
+</div>
+
+<script>
+
+    $(".comstb").click(function () {
+
+        layer.prompt({title: '请输入邀请码！', formType: 4}, function(pass, index){
+            layer.close(index);
+            $.post("/Class_join",{
+                "invitation":pass
+            },function (data,status) {
+                if(data.code==500){
+                    layer.msg(data.msg);
+                }else if(data.code == 200){
+
+                    layer.msg(data.msg);
+                    //pagenow = 1;
+                    //getlistdata(pagenow);
+                }
+            })
+        });
+    });
+
+    var pagenow =1;
+    var pagedata = null;
+
+    function getlistdata(page){
+        var index = layer.load();
+        $.get("/Class_List_students?page_size=8&page_number="+page,function (data,status) {
+
+            layer.close(index);
+            var renderhtml ='';
+            for(var i=0;i<data["Data"].length;i++){
+                var itemhtmlstr = `<div class="banitem" >
+<div style="
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #fff;
+    z-index: -1;
+    top: 0;
+    left: 0;
+"></div>
+            <div style="flex: 1;">
+
+                <a href="/Myclass_main?Invitation=`+data["Data"][i]["Invitation"]+`&classname=`+data["Data"][i]["ClassName"]+`&calssid=`+data["Data"][i]["ClassID"]+`" > <h3 style="color: #01adff;margin-bottom: 10px;" >`+data["Data"][i]["ClassName"]+`</h3></a>
+                <p  style="color: #717171" >班号`+data["Data"][i]["ClassID"]+` 班学生人数`+data["Data"][i]["Number"]+`人  邀请码：`+data["Data"][i]["Invitation"]+`</p>
+            </div>
+            <div style="display: flex">
+                <a class="cbutton"  href="/Myclass_main?Invitation=`+data["Data"][i]["Invitation"]+`&classname=`+data["Data"][i]["ClassName"]+`&calssid=`+data["Data"][i]["ClassID"]+`"  >
+                    <img src="../resources/img/mpople.png" style="width: 22px;height: 22px;margin-right: 4px" > 进入班级
+                </a>
+
+                 <a class="cbutton"  onclick="del(`+data["Data"][i]["Invitation"]+`)" >
+                    <img src="../resources/img/del.png" style="width: 22px;height: 22px;margin-right: 4px" > 退出班级
+                </a>
+
+            </div>
+        </div>`;
+                renderhtml+=itemhtmlstr;
+                $(".listcontent").html(renderhtml);
+                pagenow = page;
+            }
+            // data["Currentpage"]
+            window.loadpagefist =true;
+
+
+            //总页数大于页码总数
+            pagedata = data;
+            // console.log(data["Totalpage"]);
+            window.laypage.render({
+                elem: 'paging'
+                ,count: data["Count"],
+                limit:8,//数据总数
+                curr: page
+                ,jump: function(obj){
+                    if(window.loadpagefist == true){
+                        window.loadpagefist = false;
+                    }else{
+                        pagenow = obj.curr;
+                        getlistdata(pagenow);
+                    }
+                }
+            });
+
+        });
+    }
+
+
+    $(function () {
+        layui.use(['laypage', 'layer'], function(){
+            window.laypage = layui.laypage;
+            getlistdata(pagenow);
+        });
+
+    })
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

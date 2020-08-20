@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link href="../resources/style/default.css" rel="stylesheet" media="screen" type="text/css" />
+    <script type="text/javascript" src="../resources/jmeditor/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../resources/jmeditor/JMEditor.js"></script>
+</head>
+<style>
+    html,body{
+        margin: 0;
+        font-family:"微软雅黑","Heiti SC"
+    }
+    .conter, .navbarconter{
+        width: 950px;
+        margin: 0 auto;
+    }
+    .workpan{
+        background: white;
+        border: 1px solid #ddd;
+        display: flex;
+    }
+    .workvideo{
+        width: 220px;
+        height: 120px;
+        position: relative;
+    }
+    .workvideo img {
+        width: 220px;
+        height: 120px;
+    }
+    .workvideo > .palyicon{
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -20px 0px 0px -20px;
+    }
+    .video{
+        height: 100%;
+        padding: 10px;
+    }
+    .workcpan{
+        flex: 1;
+        overflow: auto;
+        border-right: 1px solid #ddd;
+    }
+    .video .vtitle {
+        font-size: 15px;
+        font-weight: bold;
+        color: #2e8cb7;
+        margin:  10px 0px 10px 0px;
+    }
+    .worklabelbox{
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+    .worklabel{
+        color: white;
+        background: #2e8cb7;
+        font-size: 14px;
+        display: inline;
+        padding: 4px 5px 4px 5px;
+        position: relative;
+    }
+    .worklabel:after{
+        margin-top: 2px;
+        position: absolute;
+        content: '';
+        border-top: 10px transparent dashed;
+        border-left: 10px #2e8cb7 solid;
+        border-bottom: 10px transparent dashed;
+        border-right: 10px transparent dashed;
+        margin-left: 3px;
+        top:0px
+    }
+.SingleT{
+    background: #f2f2f2;
+    padding: 20px 20px 20px 20px;
+}
+    .wtitle {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .Singlew{
+        padding: 20px 20px 20px 20px;
+        background: white;
+    }
+
+    .Singlew  input{
+        border: none;
+        border-bottom: 1px solid #000;
+        outline: none;
+    }
+
+    .subwork{
+        color: white;
+        background-image: linear-gradient(#05a6fa, #0298d9);
+        padding: 10px;
+        width: 72px;
+        height: 15px;
+        line-height: 15px;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 3px;
+        box-shadow: 0px 2px 5px #88888866;
+        cursor: pointer;
+    }
+
+
+    .barborderbox{
+        display: flex;
+        margin-bottom: 10px;
+    }
+    .barboxconetn{
+        border-bottom: 2px solid #D3D3D3;
+        flex: 1;
+        height: 30px;
+        align-items: center;
+        display: flex;
+    }
+    .barboxconetnr{
+        border-bottom: 2px solid #D3D3D3;
+
+        height: 30px;
+        align-items: center;
+        display: flex;
+    }
+    .barboxtitle{
+        color: #A52A2A;
+        border-bottom: 2px solid #A52A2A;
+        font-size: 20px;
+        letter-spacing: 4px;
+        padding: 0px 5px;
+        display: flex;
+        height: 30px;
+        align-items: center;
+    }
+
+</style>
+
+
+<body style="background-color: #f9f9f9;">
+
+<!--通知-->
+
+<div class="conter" >
+
+
+    <!--正在进行-->
+    <div class="barborderbox">
+
+        <span class="barboxtitle">数学作业</span>
+        <span  class="barboxconetn"  >
+            测试班 9  时间 2014-02-04到2014-03-01
+        </span>
+
+
+        <div class="barboxconetnr" >
+            倒计时 : <span style="color: #A52A2A" >00:00:14</span>
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <div class="workpan">
+
+            <div class="workcpan" >
+
+                <div>
+                    <div class="worklabelbox" >
+                        <div class="worklabel" >
+                            单选题
+                        </div>
+                    </div>
+
+                    <div class="SingleT" >
+                        <p class="wtitle" >
+                            1.两数之和是什么意思
+                        </p>
+                        <p class="wtitle" >
+                           <label> <input name="Fruit" type="radio" value="1" />苹果</label>
+                        </p>
+                        <p class="wtitle" >
+                            <label> <input name="Fruit" type="radio" value="1" />栗子</label>
+                        </p>
+                        <p class="wtitle" >
+                            <label> <input name="Fruit" type="radio" value="1" />咸鱼</label>
+                        </p>
+                    </div>
+                </div>
+
+
+
+
+                <div>
+                    <div class="worklabelbox" >
+                        <div class="worklabel" >
+                            填空题
+                        </div>
+                    </div>
+                    <div class="Singlew" >
+                        <p class="wtitle" >
+                            1.两数之和是
+                            <input />
+                            什么意思
+                        </p>
+                    </div>
+                </div>
+
+
+
+
+                <div>
+                    <div class="worklabelbox" >
+                        <div class="worklabel" >
+                            解答题
+                        </div>
+                    </div>
+                    <div class="Singlew" >
+                        <p class="wtitle" >
+                            1.两数之和是
+                        </p>
+
+                        <div id="content2" contentEditable="true" class="editDemo">
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div>
+
+                    <div class="subwork" >
+                        提交作业
+                    </div>
+                    <div style="height: 50px" ></div>
+                </div>
+
+
+
+
+            </div>
+
+            <div  class="video">
+
+                <p class="vtitle" >本次作业覆盖知识点视频</p>
+
+                <div class="workvideo" >
+                    <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1830914723,3154965800&fm=26&gp=0.jpg">
+                    <img  class="palyicon" src="../resources/img/play.png" >
+                </div>
+            </div>
+    </div>
+
+</div>
+
+
+
+</body>
+</html>

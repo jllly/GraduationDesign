@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script type="text/javascript" src="../resources/jmeditor/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../resources/jmeditor/JMEditor.js"></script>
+<link rel="stylesheet" href="../resources/layui/css/layui.css"  media="all">
+<script src="../resources/layer/layer.js"></script>
+<script src="../resources/layui/layui.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<style>
+    html,body{
+        margin: 0;
+        font-family:"微软雅黑","Heiti SC"
+    }
+    .conter, .navbarconter{
+        width: 950px;
+        margin: 0 auto;
+    }
+    .editDemo{
+        width: 100%;
+        min-height: 200px;
+        border: 1px solid #ddd;
+    }
+    .contentbox{
+        display: flex;
+        height: 700px;
+        border-bottom:1px solid #ddd;
+    }
+    .workpan{
+        background: white;
+        border: 1px solid #ddd;
+        display: flex;
+    }
+    .workvideo{
+        width: 220px;
+        height: 120px;
+        position: relative;
+    }
+    .workvideo img {
+        width: 220px;
+        height: 120px;
+    }
+    .workvideo > .palyicon{
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -20px 0px 0px -20px;
+    }
+    .video{
+        height: 100%;
+        padding: 10px;
+    }
+    .workcpan{
+        flex: 1;
+        overflow: auto;
+        border-right: 1px solid #ddd;
+    }
+    .video .vtitle {
+        font-size: 15px;
+        font-weight: bold;
+        color: #2e8cb7;
+        margin:  10px 0px 10px 0px;
+    }
+    .worklabelbox{
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+    .worklabel{
+        color: white;
+        background: #2e8cb7;
+        font-size: 14px;
+        display: inline;
+        padding: 4px 5px 4px 5px;
+        position: relative;
+    }
+    .worklabel:after{
+        margin-top: 2px;
+        position: absolute;
+        content: '';
+        border-top: 10px transparent dashed;
+        border-left: 10px #2e8cb7 solid;
+        border-bottom: 10px transparent dashed;
+        border-right: 10px transparent dashed;
+        margin-left: 3px;
+        top:0px
+    }
+    .SingleT{
+        background: #f2f2f2;
+        padding: 20px 20px 20px 20px;
+    }
+    .wtitle {
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+    .wtitle input {
+        margin-right: 10px;
+    }
+    .Singlew{
+        padding: 20px 20px 20px 20px;
+        background: white;
+    }
+    .Singlew  input{
+        border: none;
+        border-bottom: 1px solid #000;
+        outline: none;
+    }
+    .subwork{
+        color: white;
+        background-image: linear-gradient(#05a6fa, #0298d9);
+        padding: 10px;
+        width: 72px;
+        height: 15px;
+        line-height: 15px;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 3px;
+        box-shadow: 0px 2px 5px #88888866;
+        cursor: pointer;
+    }
+    .barborderbox{
+        display: flex;
+        margin-bottom: 10px;
+    }
+    .barboxconetn{
+        border-bottom: 2px solid #D3D3D3;
+        flex: 1;
+        height: 30px;
+        align-items: center;
+        display: flex;
+    }
+    .barboxconetnr{
+        border-bottom: 2px solid #D3D3D3;
+        height: 30px;
+        align-items: center;
+        display: flex;
+    }
+    .barboxtitle{
+        color: #A52A2A;
+        border-bottom: 2px solid #A52A2A;
+        font-size: 20px;
+        letter-spacing: 4px;
+        padding: 0px 5px;
+        display: flex;
+        height: 30px;
+        align-items: center;
+    }
+    .cbuttons{
+        display: flex;
+        color: white;
+        width: 100px;
+        background-image: linear-gradient(#05a6fa, #0298d9);
+        padding: 6px 10px 6px 10px;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 3px;
+        box-shadow: 0px 2px 5px #88888866;
+        cursor: pointer;
+        font-size: 15px;
+        align-self: center;
+        align-items: center;
+        text-decoration: none;
+    }
+    .Nocorrespondingdisplay{
+        text-align: center;
+    }
+    .Correspondingeditingarea{
+        display: none;
+    }
+    .editare{
+        cursor: pointer;
+    }
+    .Fillintheblanks{
+        cursor: pointer;
+    }
+
+</style>
+<body>
+
+
+<div class="conter">
+
+
+
+
+    <div class="contentbox" >
+        <div style="flex: 1;     border-right: 1px solid #ddd;    padding-top: 20px;margin-right: 20px" >
+            <button type="button" class="layui-btn comstb  addroottree" style="margin-bottom: 10px">
+                <i class="layui-icon">&#xe608;</i> 添加根级目录
+            </button>
+            <div id="test9" class="demo-tree demo-tree-box" style="width:100%; height:630px; overflow: scroll;"></div>
+        </div>
+        <div style="flex: 1; padding-top: 20px;" >
+            <div class="workcpan" >
+
+
+
+                {{/*                                <div>*/}}
+                {{/*                                    <div class="worklabelbox" >*/}}
+                {{/*                                        <div class="worklabel" >*/}}
+                {{/*                                            填空题*/}}
+                {{/*                                        </div>*/}}
+                {{/*                                    </div>*/}}
+                {{/*                                    <div class="Singlew" >*/}}
+                {{/*                                        <p class="wtitle" >*/}}
+                {{/*                                            1.两数之和是*/}}
+                {{/*                                            <input />*/}}
+                {{/*                                            什么意思*/}}
+                {{/*                                        </p>*/}}
+                {{/*                                    </div>*/}}
+                {{/*                                </div>*/}}
+
+                <div class="Nocorrespondingdisplay" >
+                    未打开对应题目
+                </div>
+                <div class="Correspondingeditingarea" >
+                    <div class="Questionlistview"></div>
+                    <div style="margin-top: 15px" >
+                        <div class="cbuttons"   >
+                            <img src="../resources/img/addf.png" style="width: 22px;height: 22px;margin-right: 4px" > 添加题目
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+
+<script>
+
+
+
+    window.Questionlist = [];
+    function  handleProblemarea(data) {
+
+        //console.log("x");
+        if(window.addpwindow !=null){
+            layer.close(window.addpwindow);
+            window.addpwindow= null;
+        }
+
+        window.addpwindow =  layer.open({
+            type: 2,
+            title: '作答区域',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['893px', '600px'],
+            content: "./jSolutionarea"
+        });
+
+
+    }
+
+    function addQuestion(data){
+        window.Questionlist.push(data);
+        //渲染问题
+        var htmlt ="";
+        for(var i=0;i<window.Questionlist.length;i++){
+            if(window.Questionlist[i]["type"] =="0"){
+                var options = "";
+                for( var d= 0;d<window.Questionlist[i]["options"].length;d++){
+                    options+=`  <div class="wtitle" >
+                                            <label> <input name="`+(i.toString()+d.toString())+`" type="`+(window.Questionlist[i]["multiSelect"]?"checkbox":"radio")+`" value="`+i+`" />   <div  style="display: inline-block;" > `+window.Questionlist[i]["options"][d]+`</div> </label>
+                                        </div>`;
+                }
+                //选择题
+                htmlt+=`<div>
+                                    <div class="worklabelbox" >
+                                        <div class="worklabel" >
+                                            `+(window.Questionlist[i]["multiSelect"]?"多选题":"单选题")  +`
+                                        </div>
+                                    </div>
+
+                                    <div class="SingleT" >
+                                          <div class="wtitle" >
+                                            `+((i+1)+".")+`
+                                                <div style="display: inline-block;" >`+(window.Questionlist[i]["problem"])+`</div>
+                                            </div>
+                                        `+options+`
+                                    </div>
+                                </div>`;
+            }
+            else if (window.Questionlist[i]["type"] =="2"){
+                //选择题
+                htmlt+=` <div>
+                                    <div class="worklabelbox" >
+                                        <div class="worklabel" >
+                                            解答题
+                                        </div>
+                                    </div>
+                                    <div class="Singlew" >
+                                        <div class="wtitle" style="margin-bottom: 10px" >
+                                            `+(window.Questionlist[i]["problem"])+`
+                                        </div>
+                                        <div   class="editDemo editare" onclick="handleProblemarea(this)">
+
+                                        </div>
+                                    </div>
+                                </div>`;
+
+            } else  if (window.Questionlist[i]["type"] =="1"){
+
+
+
+                window.Questionlist[i]["problem"]  =   "<div>"+window.Questionlist[i]["problem"].substr(3,window.Questionlist[i]["problem"].length-4)+"</div>";
+
+
+
+
+                var list = window.Questionlist[i]["problem"].split("(Needtofill)");
+
+                var  renderview = '';
+                for(var ii = 0;ii<list.length;ii++){
+                    renderview+=list[ii];
+                    if(ii !=list.length-1 ){
+                        renderview+="<span class='Fillintheblanks'  onclick='handleProblemarea(this)'  >(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</span>"
+                    }
+
+
+
+
+
+                }
+
+
+
+
+
+                //选择题
+                htmlt+=` <div>
+                                    <div class="worklabelbox" >
+                                        <div class="worklabel" >
+                                            填空题
+                                        </div>
+                                    </div>
+                                    <div class="Singlew" >
+                                        <div class="wtitle" style="margin-bottom: 10px" >
+                                           `+((i+1)+".")+` `+renderview+`
+                                        </div>
+                                    </div>
+                                </div>`;
+
+
+            }
+            $(".Questionlistview").html(htmlt)
+        }
+    }
+
+
+    window.addproblem =function (data) {
+        console.log(data);
+        layer.close(window.addpwindow);
+        //添加到题目列表里面
+        addQuestion(data);
+    };
+
+    function hanldeslecttupe(){
+        var  ttype = $(".ttypeslect").val();
+        //     <option value="0">选择题</option>
+        //     <option value="1">填空题</option>
+        //     <option value="2">解答题</option>
+        var urldizhi  ="";
+        if(ttype == "0"){
+            //选择题
+            urldizhi =  './Createproblem'
+        }else if (ttype == "1"){
+            urldizhi =  './CreateAFilliInQuestion'
+            //填空题
+        }else if(ttype == "2"){
+            //解答题
+            urldizhi =  './Answerquestions'
+        }
+
+        //layer.close(window.addpwindow);
+        if(window.addpwindow !=null){
+            layer.close(window.addpwindow);
+            window.addpwindow= null;
+        }
+
+        window.addpwindow =  layer.open({
+            type: 2,
+            title: '编辑题目',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['893px', '600px'],
+            content: urldizhi
+        });
+        layer.close(window.popuwindow);
+    }
+
+    function resettree(data1){
+        window.tree.render({
+            elem: '#test9'
+            ,data: data1
+            ,edit: ['add', 'update', 'del'] //操作节点的图标
+            ,click: function(obj){
+                // layer.msg(JSON.stringify(obj.data));
+                console.log(obj);
+                if(obj["state"]=="open" &&  obj["data"]["children"] == null ){
+                    console.log("打开对应节点题目");
+                    $(".Nocorrespondingdisplay").css({"display":"none"});
+                    $(".Correspondingeditingarea").css({"display":"block"});
+                }else{
+                    $(".Correspondingeditingarea").css({"display":"none"});
+                    $(".Nocorrespondingdisplay").css({"display":"block"});
+                }
+            },
+            operate: function(obj){
+                var type = obj.type; //得到操作类型：add、edit、del
+                var data = obj.data; //得到当前节点的数据
+                var elem = obj.elem; //得到当前节点元素
+                //Ajax 操作
+                var id = data.id; //得到节点索引
+                if(type === 'add'){ //增加节点
+                    //返回 key 值
+                    return 123;
+                } else if(type === 'update'){ //修改节点
+                    console.log(obj);
+                    console.log(elem.find('.layui-tree-txt').html()); //得到修改后的内容
+                } else if(type === 'del'){ //删除节点
+
+                };
+            }
+        });
+    }
+
+    $(function () {
+
+
+        layui.use(['tree', 'util'], function(){
+            window.tree = layui.tree
+                ,window.layert = layui.layer
+                ,window.utilt = layui.util;
+            //模拟数据
+            //开启节点操作图标
+
+            var    data1 = [{"title":"人教版新版教材","id":"0","children":[{"title":"一年级上","id":"0","children":[{"title":"1~5的认识和加减法","id":"0","children":[{"title":"1~5的大小比较","id":"0","children":null},{"title":"5以内的加法","id":"0","children":null},{"title":"5以内的减法","id":"0","children":null}]},{"title":"6~10的认识和加减法","id":"0","children":[{"title":"6~10的大小比较","id":"0","children":null},{"title":"6~7的加减法","id":"0","children":null},{"title":"8~9的加减法","id":"0","children":null},{"title":"10的加减法","id":"0","children":null},{"title":"连加、连减","id":"0","children":null},{"title":"加减混合","id":"0","children":null}]},{"title":"11~12各数的认识","id":"0","children":[{"title":"11~12的大小比较","id":"0","children":null},{"title":"20以内不进位加法，不退位减法","id":"0","children":null}]},{"title":"20以内的进位加法","id":"0","children":[{"title":"9加几","id":"0","children":null},{"title":"8、7、6加几","id":"0","children":null},{"title":"5、4、3、2加几","id":"0","children":null}]},{"title":"期末复习","id":"0","children":null},{"title":"专项训练","id":"0","children":[{"title":"10以内加减法","id":"0","children":null},{"title":"20以内进位加法","id":"0","children":null}]}]},{"title":"一年级下","id":"0","children":[{"title":"20以内的退位减法","id":"0","children":[{"title":"十几减9","id":"0","children":null},{"title":"十几减8","id":"0","children":null},{"title":"十几减7、6","id":"0","children":null},{"title":"十几减5、4、3、2","id":"0","children":null},{"title":"20以内退位减法表","id":"0","children":null}]},{"title":"100以内数的认识","id":"0","children":[{"title":"比较大小","id":"0","children":null},{"title":"整十数加一位数及相应的减法","id":"0","children":null}]},{"title":"100以内的加法和减法（一）","id":"0","children":[{"title":"整十数加、减整十数","id":"0","children":null},{"title":"两位数加一位数、整十数（不进位）","id":"0","children":null},{"title":"两位数加一位数（进位）","id":"0","children":null},{"title":"两位数减一位数、整十数（不退位）","id":"0","children":null},{"title":"两位数减一位数（退位）","id":"0","children":null},{"title":"认识小括号","id":"0","children":null}]},{"title":"期末复习","id":"0","children":null},{"title":"专项训练","id":"0","children":[{"title":"100以内的进位加法和退位减法","id":"0","children":null},{"title":"100以内的连加连减、加减混合","id":"0","children":null}]}]},{"title":"二年级上","id":"0","children":[{"title":"100以内的加法和减法（一）","id":"0","children":[{"title":"两位数的加法","id":"0","children":null},{"title":"两位数的减法","id":"0","children":null},{"title":"连加、连减","id":"0","children":null},{"title":"加减混合","id":"0","children":null}]},{"title":"表内乘法（一）","id":"0","children":[{"title":"1~5的乘法口诀","id":"0","children":null},{"title":"1~5的乘加乘减","id":"0","children":null},{"title":"6的乘法口诀","id":"0","children":null}]}]},{"title":"二年级下","id":"0","children":null},{"title":"三年级上","id":"0","children":null},{"title":"三年级下","id":"0","children":null},{"title":"四年级上","id":"0","children":null},{"title":"四年级下","id":"0","children":null},{"title":"五年级上","id":"0","children":null},{"title":"五年级下","id":"0","children":null},{"title":"六年级上","id":"0","children":null},{"title":"六年级下","id":"0","children":null}]}];
+            resettree(data1);
+
+
+
+
+            $(".cbuttons").on("click",function () {
+
+                var html =    `
+<div  style="padding: 10px;text-align: center;" >
+         <select class="ttypeslect"  name="city" lay-verify="required"  style="    width: 100%;
+    height: 30px;
+    background: #fff;
+    border: 1px solid #ddd;" >
+        <option value="0">选择题</option>
+        <option value="1">填空题</option>
+        <option value="2">解答题</option>
+      </select>
+      <buttton   class="layui-btn  " onclick="hanldeslecttupe()" style="margin-top: 10px;" >确定</buttton>
+</div>
+</label>
+
+
+`
+                window.popuwindow =     layer.open({
+                    type: 1,
+                    title:"选择题型",
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['420px', '140px'], //宽高
+                    content: html
+                });
+            });
+
+            $(".addroottree").on("click",function () {
+                layer.prompt({title: '创建目录，填写目录名称', formType: 4}, function(pass, index){
+                    layer.close(index);
+                    data1.push({
+                        title: pass
+                        ,id: 3
+                    });
+                    resettree(data1);
+                    // $.post("/Class_Add",{
+                    //     "classname":pass
+                    // },function (data,status) {
+                    //     if(data.code==500){
+                    //         layer.msg(data.msg);
+                    //     }else if(data.code == 200){
+                    //
+                    //         layer.msg(data.msg);
+                    //         pagenow = 1;
+                    //         getlistdata(pagenow);
+                    //     }
+                    // })
+                });
+
+
+            })
+
+
+
+
+
+
+
+
+        });
+    })
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

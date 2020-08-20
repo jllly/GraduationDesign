@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../resources/jmeditor/jquery-1.8.3.min.js"></script>
+    <script src="../resources/layer/layer.js"></script>
+    <title>在线数学作业系统</title>
+
+</head>
+<style>
+    html,body{
+        margin: 0;
+        font-family:"微软雅黑","Heiti SC"
+    }
+    .hide{
+        display: none;
+    }
+    .c1{
+        position: fixed;
+        top:0;
+        bottom: 0;
+        left:0;
+        right: 0;
+        background: rgba(0,0,0,.5);
+        z-index: 2;
+    }
+    .c2{
+        background-color: white;
+        position: fixed;
+        width: 485px;
+        top: 50%;
+        left: 50%;
+        z-index: 3;
+        margin-top: -150px;
+        margin-left: -200px;
+        border-radius: 10px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+
+    }
+    #modal p {
+        margin-left:80px;
+    }
+    .input{
+        width: 315px;
+        height: 35px;
+        margin: 10px 0px 0px 0px;
+        font-size: 15px;
+        letter-spacing: 1px;
+        padding-left: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+    .button{
+        color: #fff;
+        width: 280px;
+        background-color: #00adfe;
+
+        height: 40px;
+        margin: 15px 20px 15px;
+        border-radius: 6px;
+        border: none;
+        font-size: 18px;
+    }
+    .a{
+        color: #A9A9A9;
+        font-size: 15px;
+    }
+    p{
+        margin: 0px;
+        padding-top: 4px;
+    }
+    li{
+        height: 45px;
+        width: 470px;
+        margin-top: 5px;
+        line-height: 45px;
+    }
+    em{
+        width: 150px;
+        float: right;
+        height: 35px;
+        color: red;
+    }
+    span{
+        font-size: 18px;
+        letter-spacing: 1px;
+        width: 100px;
+        display: block;
+        float: left;
+    }
+
+    .c2  li input{
+        width: 200px;
+    }
+
+    li input{
+        height: 32px;
+        width: 300px;
+        font-size: 15px;
+        letter-spacing: 1px;
+        padding-left: 10px;
+        border: 1px solid #ddd;
+    }
+    ul > input{
+        color: #fff;
+        background-color: #00adfe;
+        border-radius: 6px;
+        border: none;
+        font-size: 15px;
+        padding: 8px 20px 8px 20px;
+        margin-top: 20px;
+    }
+    .sendcode{
+        color: #fff;
+        background: #00adfe;
+        width: 100px !important;
+        margin: 0px;
+        border: none;
+        height: 36px;
+        font-size: 15px;
+    }
+    .midfsub{
+
+        color: #fff;
+        background-color: #00adfe;
+        border-radius: 6px;
+        border: none;
+        font-size: 15px;
+        padding: 8px 20px 8px 20px;
+        /*margin-top: 20px;*/
+
+    }
+
+</style>
+
+<script >
+    //显示
+    function Show(aid){
+        document.getElementById('shade').classList.remove('hide');
+        document.getElementById('modal').classList.remove('hide');
+        if (aid.id=='forget'){
+            document.getElementById('forgetdiv').style.display='block';
+        }else {
+            document.getElementById('registereddiv').style.display='block';
+            getverimg();
+        }
+    }
+    //隐藏
+    function Hide(){
+        document.getElementById('shade').classList.add('hide');
+        document.getElementById('modal').classList.add('hide');
+        document.getElementById('forgetdiv').style.display='none';
+        document.getElementById('registereddiv').style.display='none';
+    }
+   //验证码
+    function getverimg() {
+        $.get("/Verificationcode",function(data,status){
+            window.captchaId =data.captchaId;
+            $("#Verificationcode").attr("src", data.imageUrl);
+        });
+    }
+    //提交注册表单
+    function submitform() {
+        var  pn = $("#phonenumber").val();
+        var pw=$("#password").val();
+        var cp=$("#confirmpassword").val();
+        var id=$('input:radio[name="position"]:checked').val();
+        var vc=$("#verification").val();
+        if (pn==0){layer.msg('请输入手机号');return;}
+        if (pw==0){layer.msg('请输入密码');return;}
+        if (cp==0){layer.msg('请输入密码');return;}else if (pw!=cp){layer.msg('两次密码输入不一样');return;}
+        if (vc==0){ layer.msg('请输入验证码');return;}
+        $.post("/submitregistered",{
+            "phonenumber": pn,
+            "password":pw,
+            "verification":vc,
+            "captchaId":window.captchaId,
+            "position":id
+        },function (data,status) {
+            //data.phone
+            if (data.code==200){
+                 $("#phonenumber").val("");
+                $("#password").val("");
+                $("#confirmpassword").val("");
+                $("#verification").val("");
+                Hide()
+            }else {
+                layer.msg(data.msg);
+            }
+        })
+    }
+//提交登录表单
+    function loginform() {
+        var pn=$("#dphonenumber").val();
+        var pw=$("#dpassword").val();
+        if (pn==0){
+            // $("#none1").append("请输入手机号");
+            layer.msg('请输入手机号');
+            return;//显示
+        }else {
+        }
+        if (pw==0){
+            layer.msg('请输入密码');
+            return;
+        }else {
+            $("#none2").html("");
+        }
+        $.post("/login",{
+            "phonenumber": pn,
+            "password":pw,
+        },function (data,status) {
+            if(data.code==500){
+                layer.msg(data.msg);
+            }else if(data.code ==304){
+
+                    window.location.href=data.msg;
+
+            }else if(data.code == 501){
+                layer.msg(data.msg);
+            }
+        })
+    }
+    //忘记密码
+    function submitphone() {
+        var pn = $("#phone").val();
+
+        $.post("/forget",{
+            "submitphone":pn,
+        })
+    }
+    //post方法提交忘记密码的表单
+    function forgetform() {
+        var pn=$("#phone").val();
+        var sms=$("#sms").val();
+        var pw=$("#newpassword").val();
+
+      $.post("",{
+          "submitphone": pn,
+          "sms":sms,
+          "newpassword":pw,
+      })
+    }
+    
+</script>
+
+
+<body>
+<div>
+    <b style="
+    font-size: 40px;
+    font-style: italic;
+    color: #A52A2A;
+    margin: 30px;
+    display: block;
+
+">好好学习，天天向上！</b>
+</div>
+
+
+<div style="height: 500px;background-color: #01adff;" >
+
+    <div style="
+    float: right;
+    background-color: beige;
+    display: inline;
+    padding-top: 5px;
+    margin: 80px;
+    padding: 20px;
+    border-radius: 5px;
+
+        " >
+        <b style="vertical-align: inherit;font-size: 20px;   letter-spacing: 2px;margin-left: 5px;">账号登录</b><br>
+        <input class="input" type="text" placeholder="手机号" id="dphonenumber" name="phone" required pattern="[0-9]{11}" title="11位数"><br>
+        <div style="height: 22px;color: #ff0000;    margin: -13px 0px -9px 40px;" id="none1"></div>
+        <input class="input" type="password" placeholder="密码" id="dpassword" name="password" required><br>
+        <div style="height: 22px;color: #ff0000;    margin: -13px 0px -9px 40px;" id="none2"></div>
+        <input class="button" type="button" value="登录" onclick="loginform()"><br>  <!--登录按钮-->
+        <a class="a" onclick="Show(this)" id="forget">忘记密码</a>
+        <a onclick="Show(this)" class="a" style="float: right" id="registered">免费注册</a>
+    </div>
+
+
+</div>
+<div style="
+
+display: block;
+    text-align: center;
+
+
+    line-height: 22px;
+
+">
+    <p>有用版权所有</p>
+    <p>联系邮箱：836487437@qq.com</p>
+
+</div>
+
+
+<!--隐藏部分-->
+<div id="shade" class="c1 hide">
+
+</div>
+<div id="modal" class="c2 hide" >
+    <!-- 免费注册-->
+    <div style="display: none" id="registereddiv">
+        <ul style="list-style: none;padding-left: 15px;">
+            <li>
+                <span>电话号码</span>
+                <input type="text" id="phonenumber" required pattern="[0-9]{11}">
+            </li>
+
+            <li>
+                <span>密码</span>
+                <input type="password" required id="password">
+            </li>
+
+            <li>
+                <span>确认密码</span>
+                <input type="password" required id="confirmpassword">
+            </li>
+            <li>
+                <span> 验证码</span>
+                <input type="text" required id="verification" style="width: 70px;margin-right: 130px;">
+            </li>
+            <img  onclick="getverimg()"  id="Verificationcode" style="position: absolute;left: 220px;
+    top: 165px;   height: 38px;"/><!--验证码图片，后台实现-->
+            <div style="margin-top: 10px;margin-bottom: 10px">
+                <label style="margin: 0px 60px;"><input type="radio" name="position" value="0" checked>学生</label>
+                <label><input type="radio" name="position" value="1">老师</label>
+            </div>
+            <input  type="button" value="确认" onclick="submitform()" style="margin: 0px 115px 0px 85px;">
+            <input type="button" value="取消" onclick="Hide()">
+
+        </ul>
+    </div>
+    <!-- 忘记密码-->
+    <div style="display: none;" id="forgetdiv">
+        <ul style="list-style: none">
+            <li style="    display: flex;">
+                <span>手机号</span><input type="text">
+                <input class="sendcode" type="button" value="发送验证码" onclick="submitphone()" id="phone">
+            </li>
+            <li>
+                <span>验证码</span><input type="text" id="sms">
+            </li>
+            <li>
+                <span>新密码</span><input type="text" id="newpassword">
+            </li>
+        </ul>
+        <input  type="button" class="midfsub"  value="提交" onclick="forgetform()" style="margin: 0px 115px 0px 85px;">
+        <input type="button" class="midfsub"   value="取消" onclick="Hide()">
+
+
+    </div>
+
+
+
+</div>
+
+</body>
+</html>
